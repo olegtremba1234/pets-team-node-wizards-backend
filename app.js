@@ -4,13 +4,13 @@ const cors = require('cors');
 require('dotenv').config();
 const { globalHandleError } = require('./middlewares');
 
-// const {
-//   usersRouter,
-//   petsRouter,
-//   noticesRouter,
-//   partnersRouter,
-//   newsRouter,
-// } = require('./routes/api');
+const {
+  usersRouter,
+  petsRouter,
+  noticesRouter,
+  partnersRouter,
+  newsRouter,
+} = require('./routes');
 
 const app = express();
 
@@ -20,11 +20,13 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-// app.use('/api/users', usersRouter);
-// app.use('/api/pets', petsRouter);
-// app.use('/api/notices', noticesRouter);
-// app.use('/api/partners', partnersRouter);
-// app.use('/api/news', newsRouter);
+app.get('/', (req, res) => res.status(200).json({ message: 'Successful' }));
+
+app.use('/api/users', usersRouter);
+app.use('/api/pets', petsRouter);
+app.use('/api/notices', noticesRouter);
+app.use('/api/partners', partnersRouter);
+app.use('/api/news', newsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
