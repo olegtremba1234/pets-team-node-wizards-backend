@@ -1,40 +1,65 @@
 const express = require('express');
 const { callController } = require('../../../middlewares');
-const { noticesCtrl } = require('../../../controllers');
+const { noticesController } = require('../../../controllers');
 
 const router = express.Router();
 
-// /api/notices/:category
+function authMiddleware(req, res, next) {
+  try {
+    const { authorization } = req.headers;
+    const [, token] = authorization.split(' ');
+
+    req.user = { _id: token };
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
 router.get(
   '/byCategory/:category',
-  callController(noticesCtrl.getNoticesByCategory)
+  callController(noticesController.getNoticesByCategory)
 );
 
-router.get('/certain/:noticeId', callController(noticesCtrl.getCertainNotice));
+router.get(
+  '/certain/:noticeId',
+  callController(noticesController.getCertainNotice)
+);
 
 router.patch(
   '/certain/:noticeId/favorite',
-  callController(noticesCtrl.setNoticeFavorite)
+  authMiddleware,
+  callController(noticesController.setNoticeFavorite)
 );
 
-router.get('/favorites', callController(noticesCtrl.getAllFavorites));
+router.get(
+  '/favorites',
+  authMiddleware,
+  callController(noticesController.getAllFavorites)
+);
 
 router.patch(
   '/certain/:noticeId/unFavorite',
-  callController(noticesCtrl.unsetNoticeFavorite)
+  authMiddleware,
+  callController(noticesController.unsetNoticeFavorite)
 );
 
 router.post(
   '/byCategory/:category',
-  callController(noticesCtrl.createNoticeByCategory)
+  authMiddleware,
+  callController(noticesController.createNoticeByCategory)
 );
 
-router.get('/myNotices', callController(noticesCtrl.getOwnNotices));
+router.get(
+  '/myNotices',
+  authMiddleware,
+  callController(noticesController.getOwnNotices)
+);
 
 router.delete(
   '/certain/:noticeId',
-  callController(noticesCtrl.removeOwnNonice)
+  authMiddleware,
+  callController(noticesController.removeOwnNonice)
 );
 
 module.exports = router;

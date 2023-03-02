@@ -29,8 +29,8 @@ const removeFromFavorite = async (userId, noticeId) => {
   });
 };
 
-const createNotice = async (body) => {
-  const notice = await NoticeModel.create({ ...body });
+const createNotice = async (category, body, userId) => {
+  const notice = await NoticeModel.create({ category, ...body, owner: userId });
   return notice;
 };
 
@@ -39,8 +39,8 @@ const getOwnNotices = async (userId) => {
   return notices;
 };
 
-const removeNotice = async (noticeId) => {
-  await NoticeModel.findByIdAndDelete(noticeId);
+const removeNotice = async (userId, noticeId) => {
+  await NoticeModel.findOneAndRemove({ _id: noticeId, owner: userId });
 };
 
 module.exports = {
