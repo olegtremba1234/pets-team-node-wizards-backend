@@ -1,7 +1,13 @@
 const newsController = require('./newsController');
-const noticesCtrl = require('./noticesController');
+const authController = require('./authController');
+const partnersController = require('./partnersController');
+const noticesController = require('./noticesController');
+const petsController = require('./petsController');
 
 module.exports = {
   newsController,
-  noticesCtrl,
+  authController,
+  partnersController,
+  noticesController,
+  petsController,
 };

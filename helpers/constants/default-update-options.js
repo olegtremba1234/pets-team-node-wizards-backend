@@ -1,5 +1,5 @@
 const DEFAULT_UPDATE_OPTIONS = Object.freeze({
-  returnDocument: 'after',
+  returnDocument: "after",
   runValidators: true,
 });
 
