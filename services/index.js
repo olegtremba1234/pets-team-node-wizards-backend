@@ -1,5 +1,5 @@
-// const serviceA = require('./services-path');
+const authService = require("./authService");
 
-// module.exports = {
-//   serviceA,
-// }
+module.exports = {
+  authService,
+};

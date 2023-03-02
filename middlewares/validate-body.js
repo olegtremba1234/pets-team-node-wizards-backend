@@ -1,4 +1,4 @@
-const { generateError } = require('../helpers');
+const { generateError } = require("../helpers/utils");
 
 const validateBody = (schema) => {
   return (req, res, next) => {
