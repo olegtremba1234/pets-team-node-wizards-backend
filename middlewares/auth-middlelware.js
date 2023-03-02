@@ -1,11 +1,43 @@
-// const jwt = require('jsonwebtoken');
-// const { generateError, responseErrors } = require('../helpers');
-// const { UserModel } = require('../models');
+const { generateError } = require("../helpers/utils");
+const { RESPONSE_ERRORS } = require("../helpers/constants");
+const jsonwebtoken = require("jsonwebtoken");
 
-// const { JWT_SECRET_KEY } = process.env;
+const { UserModel } = require("../models/user-model");
 
-// const authMiddleware = async (req, res, next) => {};
+const { SECRET: jwtSecret } = process.env;
 
-// module.exports = {
-//   authMiddleware,
-// };
+const authMiddleware = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      throw generateError(RESPONSE_ERRORS.unauthorized);
+    }
+
+    const [bearer, token] = authorization.split(" ");
+    if (bearer !== "Bearer" || !token) {
+      throw generateError(RESPONSE_ERRORS.unauthorized);
+    }
+
+    try {
+      const { userId } = jsonwebtoken.verify(token, jwtSecret);
+      const userInstance = await UserModel.findById(userId);
+
+      if (!userInstance) {
+        throw generateError(RESPONSE_ERRORS.unauthorized);
+      }
+
+      req.user = userInstance;
+
+      next();
+    } catch (error) {
+      throw generateError(RESPONSE_ERRORS.unauthorized);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  authMiddleware,
+};
