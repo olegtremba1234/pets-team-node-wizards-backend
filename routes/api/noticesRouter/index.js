@@ -1,45 +1,65 @@
 const express = require('express');
+const { callController } = require('../../../middlewares');
+const { noticesController } = require('../../../controllers');
 
 const router = express.Router();
 
-// створити ендпоінт для отримання оголошень по категоріям
-router.get('/byCategory/:category', (req, res) => {
-  res.status(200).json({ message: 'category' });
-});
+function authMiddleware(req, res, next) {
+  try {
+    const { authorization } = req.headers;
+    const [, token] = authorization.split(' ');
 
-// створити ендпоінт для отримання одного оголошення
-router.get('/certain/:noticeId', (req, res) => {
-  res.status(200).json({ message: 'noticeId' });
-});
+    req.user = { _id: token };
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
-// створити ендпоінт для додавання оголошення до обраних
-router.patch('/certain/:noticeId/favorite', (req, res) => {
-  res.status(200).json({ message: 'is favorite now' });
-});
+router.get(
+  '/byCategory/:category',
+  callController(noticesController.getNoticesByCategory)
+);
 
-// створити ендпоінт для отримання оголошень авторизованого користувача доданих ним же в обрані
-router.get('/favorites', (req, res) => {
-  res.status(200).json({ message: 'this is favorite list' });
-});
+router.get(
+  '/certain/:noticeId',
+  callController(noticesController.getCertainNotice)
+);
 
-// створити ендпоінт для видалення оголошення авторизованого користувача доданих ним же до обраних
-router.patch('/certain/:noticeId/unFavorite', (req, res) => {
-  res.status(200).json({ message: 'isn`t favorite now' });
-});
+router.patch(
+  '/certain/:noticeId/favorite',
+  authMiddleware,
+  callController(noticesController.setNoticeFavorite)
+);
 
-// створити ендпоінт для додавання оголошень відповідно до обраної категорії
-router.post('/byCategory/:category', (req, res) => {
-  res.status(201).json({ message: 'new notice by category' });
-});
+router.get(
+  '/favorites',
+  authMiddleware,
+  callController(noticesController.getAllFavorites)
+);
 
-// створити ендпоінт для отримання оголошень авторизованого кристувача створених цим же користувачем
-router.get('/myNotices', (req, res) => {
-  res.status(200).json({ message: 'all notices created by current user' });
-});
+router.patch(
+  '/certain/:noticeId/unFavorite',
+  authMiddleware,
+  callController(noticesController.unsetNoticeFavorite)
+);
 
-// створити ендпоінт для видалення оголошення авторизованого користувача створеного цим же користувачем
-router.delete('/certain/:noticeId', (req, res) => {
-  res.status(200).json({ message: 'deleted successful' });
-});
+router.post(
+  '/byCategory/:category',
+  authMiddleware,
+  callController(noticesController.createNoticeByCategory)
+);
+
+router.get(
+  '/myNotices',
+  authMiddleware,
+  callController(noticesController.getOwnNotices)
+);
+
+router.delete(
+  '/certain/:noticeId',
+  authMiddleware,
+  callController(noticesController.removeOwnNonice)
+);
 
 module.exports = router;
