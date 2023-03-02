@@ -1,6 +1,6 @@
-const validationSchemas = require('./validation');
-const utils = require('./utils');
-const constants = require('./constants');
+const validationSchemas = require("./validation");
+const utils = require("./utils");
+const constants = require("./constants");
 
 module.exports = {
   validationSchemas,

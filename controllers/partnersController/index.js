@@ -1,5 +1,5 @@
-// const { controllerName } = require('./controller-path')
+const { getAllFriends } = require("./get-all-friends");
 
-// module.exports = {
-//   controllerName,
-// }
+module.exports = {
+  getAllFriends,
+};
