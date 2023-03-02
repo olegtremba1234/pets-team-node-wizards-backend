@@ -1,5 +1,5 @@
-// const modelA = require('./model-path');
+const { NoticeModel } = require('./notice-model');
 
-// module.exports = {
-//   modelA,
-// }
+module.exports = {
+  NoticeModel,
+};

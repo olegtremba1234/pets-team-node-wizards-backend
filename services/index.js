@@ -1,5 +1,5 @@
-// const serviceA = require('./services-path');
+const noticesService = require('./noticesService');
 
-// module.exports = {
-//   serviceA,
-// }
+module.exports = {
+  noticesService,
+};

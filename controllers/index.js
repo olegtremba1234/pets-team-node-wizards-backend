@@ -1,5 +1,5 @@
-// const controllerA = require('./controller-path');
+const noticesCtrl = require('./noticesController');
 
-// module.exports = {
-//   controllerA,
-// };
+module.exports = {
+  noticesCtrl,
+};

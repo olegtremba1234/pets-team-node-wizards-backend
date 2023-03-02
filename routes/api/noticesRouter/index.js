@@ -1,45 +1,46 @@
 const express = require('express');
+const { callController } = require('../../../middlewares');
+const { noticesCtrl } = require('../../../controllers');
 
 const router = express.Router();
 
 // створити ендпоінт для отримання оголошень по категоріям
-router.get('/byCategory/:category', (req, res) => {
-  res.status(200).json({ message: 'category' });
-});
+router.get(
+  '/byCategory/:category',
+  callController(noticesCtrl.getNoticesByCategory)
+);
 
 // створити ендпоінт для отримання одного оголошення
-router.get('/certain/:noticeId', (req, res) => {
-  res.status(200).json({ message: 'noticeId' });
-});
+router.get('/certain/:noticeId', callController(noticesCtrl.getCertainNotice));
 
 // створити ендпоінт для додавання оголошення до обраних
-router.patch('/certain/:noticeId/favorite', (req, res) => {
-  res.status(200).json({ message: 'is favorite now' });
-});
+router.patch(
+  '/certain/:noticeId/favorite',
+  callController(noticesCtrl.setNoticeFavorite)
+);
 
 // створити ендпоінт для отримання оголошень авторизованого користувача доданих ним же в обрані
-router.get('/favorites', (req, res) => {
-  res.status(200).json({ message: 'this is favorite list' });
-});
+router.get('/favorites', callController(noticesCtrl.getAllFavorites));
 
 // створити ендпоінт для видалення оголошення авторизованого користувача доданих ним же до обраних
-router.patch('/certain/:noticeId/unFavorite', (req, res) => {
-  res.status(200).json({ message: 'isn`t favorite now' });
-});
+router.patch(
+  '/certain/:noticeId/unFavorite',
+  callController(noticesCtrl.unsetNoticeFavorite)
+);
 
 // створити ендпоінт для додавання оголошень відповідно до обраної категорії
-router.post('/byCategory/:category', (req, res) => {
-  res.status(201).json({ message: 'new notice by category' });
-});
+router.post(
+  '/byCategory/:category',
+  callController(noticesCtrl.createNoticeByCategory)
+);
 
 // створити ендпоінт для отримання оголошень авторизованого кристувача створених цим же користувачем
-router.get('/myNotices', (req, res) => {
-  res.status(200).json({ message: 'all notices created by current user' });
-});
+router.get('/myNotices', callController(noticesCtrl.getOwnNotices));
 
 // створити ендпоінт для видалення оголошення авторизованого користувача створеного цим же користувачем
-router.delete('/certain/:noticeId', (req, res) => {
-  res.status(200).json({ message: 'deleted successful' });
-});
+router.delete(
+  '/certain/:noticeId',
+  callController(noticesCtrl.removeOwnNonice)
+);
 
 module.exports = router;
