@@ -1,5 +1,5 @@
-// const { controllerName } = require('./controller-path')
+const { getAllNews } = require("./get-all-news");
 
-// module.exports = {
-//   controllerName,
-// }
+module.exports = {
+  getAllNews,
+};
