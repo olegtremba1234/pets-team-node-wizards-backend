@@ -1,11 +1,13 @@
-const { globalHandleError } = require("./global-hanlde-error");
-const { validateBody } = require("./validate-body");
-const { callController } = require("./call-controller");
-const { authMiddleware } = require("./auth-middlelware");
+const { globalHandleError } = require('./global-hanlde-error');
+const { validateBody } = require('./validate-body');
+const { callController } = require('./call-controller');
+const { authMiddleware } = require('./auth-middlelware');
+const { uploadCloudMiddleware } = require('./upload-cloud-middleware');
 
 module.exports = {
   globalHandleError,
   validateBody,
   callController,
   authMiddleware,
+  uploadCloudMiddleware,
 };
