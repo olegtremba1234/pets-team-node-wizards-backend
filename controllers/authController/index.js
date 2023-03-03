@@ -15,18 +15,8 @@ const logout = async (req, res, next) => {
   res.status(204).send();
 };
 
-// const petRegister = async (req, res, next) => {
-//   const file = req.files.image;
-//   cloudinary.uploader.upload(file.tempFilePath, function (_err, result) {
-//     res.send({
-//       success: true,
-//       result,
-//     });
-//   });
-// };
 module.exports = {
   register,
   login,
   logout,
-  // petRegister,
 };
