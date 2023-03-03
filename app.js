@@ -6,7 +6,6 @@ const { globalHandleError } = require("./middlewares");
 
 const {
   authRouter,
-  usersRouter,
   petsRouter,
   noticesRouter,
   partnersRouter,
@@ -24,7 +23,6 @@ app.use(express.json());
 app.get("/", (req, res) => res.status(200).json({ message: "Successful" }));
 
 app.use("/api/auth", authRouter);
-app.use("/api/users", usersRouter);
 app.use("/api/pets", petsRouter);
 app.use("/api/notices", noticesRouter);
 app.use("/api/friends", partnersRouter);
