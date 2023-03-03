@@ -4,8 +4,10 @@ const {
   validateBody,
   callController,
   authMiddleware,
+  uploadCloudMiddleware,
 } = require("../../../middlewares");
 const { validationSchemas } = require("../../../helpers");
+
 const router = express.Router();
 
 router
@@ -19,6 +21,15 @@ router
     validateBody(validationSchemas.login),
     callController(authController.login)
   )
-  .post("/logout", authMiddleware, callController(authController.logout));
+  .post("/logout", authMiddleware, callController(authController.logout))
+  .post(
+    "/upload-file",
+    authMiddleware,
+    uploadCloudMiddleware.single("avatar"),
+    callController((req, res) => {
+      console.log(req.file);
+      res.status(201).json({ message: "file uploaded successfully" });
+    })
+  );
 
 module.exports = router;
