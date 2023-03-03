@@ -1,4 +1,11 @@
 const { authService } = require("../../services");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 const register = async (req, res, next) => {
   const user = await authService.register(req.body);
@@ -15,8 +22,18 @@ const logout = async (req, res, next) => {
   res.status(204).send();
 };
 
+const petRegister = async (req, res, next) => {
+  const file = req.files.image;
+  cloudinary.uploader.upload(file.tempFilePath, function (_err, result) {
+    res.send({
+      success: true,
+      result,
+    });
+  });
+};
 module.exports = {
   register,
   login,
   logout,
+  petRegister,
 };

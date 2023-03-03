@@ -6,7 +6,10 @@ const {
   authMiddleware,
 } = require("../../../middlewares");
 const { validationSchemas } = require("../../../helpers");
+
+
 const router = express.Router();
+
 
 router
   .post(
@@ -19,6 +22,11 @@ router
     validateBody(validationSchemas.login),
     callController(authController.login)
   )
-  .post("/logout", authMiddleware, callController(authController.logout));
+  .post("/logout", authMiddleware, callController(authController.logout))
+  .post(
+    "/",
+    authMiddleware,
+    callController(authController.petRegister)
+  );
 
 module.exports = router;
