@@ -1,4 +1,6 @@
-const { NoticeModel } = require('../../models');
+const { NoticeModel } = require("../../models");
+
+const { createNotice } = require("./create-notice");
 
 const getByCategory = async (category) => {
   const notices = NoticeModel.find({ category });
@@ -10,12 +12,6 @@ const getCertain = async (id) => {
   return notice;
 };
 
-const addToFavorite = async (userId, noticeId) => {
-  await NoticeModel.findByIdAndUpdate(noticeId, {
-    $push: { favorite: userId },
-  });
-};
-
 const getFavorites = async (userId) => {
   const favorites = await NoticeModel.find({
     favorite: userId,
@@ -23,15 +19,16 @@ const getFavorites = async (userId) => {
   return favorites;
 };
 
+const addToFavorite = async (userId, noticeId) => {
+  await NoticeModel.findByIdAndUpdate(noticeId, {
+    $push: { favorite: userId },
+  });
+};
+
 const removeFromFavorite = async (userId, noticeId) => {
   await NoticeModel.findByIdAndUpdate(noticeId, {
     $pull: { favorite: userId },
   });
-};
-
-const createNotice = async (category, body, userId) => {
-  const notice = await NoticeModel.create({ category, ...body, owner: userId });
-  return notice;
 };
 
 const getOwnNotices = async (userId) => {
@@ -46,10 +43,10 @@ const removeNotice = async (userId, noticeId) => {
 module.exports = {
   getByCategory,
   getCertain,
-  addToFavorite,
   getFavorites,
+  addToFavorite,
   removeFromFavorite,
-  createNotice,
   getOwnNotices,
+  createNotice,
   removeNotice,
 };
