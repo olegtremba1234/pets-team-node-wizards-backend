@@ -17,7 +17,7 @@ function authMiddleware(req, res, next) {
 }
 
 router.get(
-  '/byCategory/:category',
+  '/by-category/:category',
   callController(noticesController.getNoticesByCategory)
 );
 
@@ -26,38 +26,38 @@ router.get(
   callController(noticesController.getCertainNotice)
 );
 
-router.patch(
-  '/certain/:noticeId/favorite',
-  authMiddleware,
-  callController(noticesController.setNoticeFavorite)
-);
-
 router.get(
-  '/favorites',
+  '/my-favorites',
   authMiddleware,
   callController(noticesController.getAllFavorites)
 );
 
 router.patch(
-  '/certain/:noticeId/unFavorite',
+  '/my-favorites/:noticeId/favorite',
   authMiddleware,
-  callController(noticesController.unsetNoticeFavorite)
+  callController(noticesController.setNoticeFavorites)
 );
 
-router.post(
-  '/byCategory/:category',
+router.patch(
+  '/my-favorites/:noticeId/unfavorite',
   authMiddleware,
-  callController(noticesController.createNoticeByCategory)
+  callController(noticesController.unsetNoticeFavorites)
 );
 
 router.get(
-  '/myNotices',
+  '/my-notices',
   authMiddleware,
   callController(noticesController.getOwnNotices)
 );
 
+router.post(
+  '/my-notices/:categoryName',
+  authMiddleware,
+  callController(noticesController.createOwnNotice)
+);
+
 router.delete(
-  '/certain/:noticeId',
+  '/my-notices/:noticeId',
   authMiddleware,
   callController(noticesController.removeOwnNonice)
 );
