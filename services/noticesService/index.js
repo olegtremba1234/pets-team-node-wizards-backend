@@ -1,6 +1,7 @@
 const { NoticeModel } = require("../../models");
 
 const { createNotice } = require("./create-notice");
+const { removeNotice } = require("./remove-notice");
 
 const getByCategory = async (category) => {
   const notices = NoticeModel.find({ category });
@@ -34,10 +35,6 @@ const removeFromFavorite = async (userId, noticeId) => {
 const getOwnNotices = async (userId) => {
   const notices = await NoticeModel.find({ owner: userId });
   return notices;
-};
-
-const removeNotice = async (userId, noticeId) => {
-  await NoticeModel.findOneAndRemove({ _id: noticeId, owner: userId });
 };
 
 module.exports = {

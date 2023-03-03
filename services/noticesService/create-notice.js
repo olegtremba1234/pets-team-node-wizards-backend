@@ -19,6 +19,7 @@ const createNotice = async (category, body, user) => {
     owner: _id,
   });
   return {
+    id: notice._id,
     category: notice.category,
     title: notice.title,
     name: notice.name,

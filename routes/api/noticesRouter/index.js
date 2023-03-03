@@ -4,6 +4,8 @@ const { noticesController } = require("../../../controllers");
 
 const router = express.Router();
 
+// TODO: add validation by Joi
+
 router.get(
   "/by-category/:category",
   callController(noticesController.getNoticesByCategory)
