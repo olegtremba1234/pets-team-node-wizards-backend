@@ -7,13 +7,14 @@ const { constants } = require("../../helpers");
 
 const { SECRET } = process.env;
 
-const register = async ({ email, password, city, phone } = {}) => {
-  const userInstance = await UserModel.findOne({ email });
-  if (userInstance) throw generateError(RESPONSE_ERRORS.emailUsed);
+const register = async ({ email, password, name, city, phone } = {}) => {
+  const user = await UserModel.findOne({ email });
+  if (user) throw generateError(RESPONSE_ERRORS.emailUsed);
   const passwordHash = await bcrypt.hash(password, 10);
   const newUser = await UserModel.create({
     email,
     password: passwordHash,
+    name,
     city,
     phone,
   });
@@ -49,8 +50,15 @@ const logout = async (user) => {
   await UserModel.findByIdAndUpdate(user._id, { accessToken: null });
 };
 
+const updateUser = async (_id, body) => {
+  const { name, email, phone, city, birthday } =
+    await UserModel.findByIdAndUpdate(_id, { ...body }, { new: true });
+  return { name, email, phone, city, birthday };
+};
+
 module.exports = {
   register,
   login,
   logout,
+  updateUser,
 };
