@@ -4,7 +4,9 @@ const { noticesController } = require("../../../controllers");
 
 const router = express.Router();
 
-// TODO: add validation by Joi
+// TODO:  add validation by Joi
+// TODO:  add check is authorized user middleware for 'get by category'
+// TODO:  add projection to endpoints
 
 router.get(
   "/by-category/:category",
