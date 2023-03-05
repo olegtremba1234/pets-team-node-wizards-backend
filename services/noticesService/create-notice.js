@@ -1,10 +1,8 @@
 const { NoticeModel } = require("../../models");
 
-const createNotice = async (category, file, body, user) => {
+const createNotice = async (category, { path = null } = {}, body, user) => {
   const { title, name, birthday, breed, sex, location, price, comments } = body;
   const { _id, email, phone } = user;
-  const { path } = file;
-  console.log("   path:   ", path);
   const notice = await NoticeModel.create({
     category,
     title,

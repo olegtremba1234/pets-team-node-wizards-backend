@@ -26,7 +26,8 @@ const getCertain = async (noticeId, userId) => {
         },
       },
     })
-    .project({ owner: 0, favoritedBy: 0, __v: 0 });
+    .addFields({ id: "$_id" })
+    .project({ owner: 0, favoritedBy: 0, __v: 0, _id: 0 });
   return notice;
 };
 

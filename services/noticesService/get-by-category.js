@@ -1,5 +1,6 @@
 const { NoticeModel } = require("../../models");
 
+// TODO: add check is "category" right
 const getByCategory = async (category, userId) => {
   const notices = await NoticeModel.aggregate()
     .match({ category })
@@ -22,7 +23,8 @@ const getByCategory = async (category, userId) => {
         },
       },
     })
-    .project({ owner: 0, favoritedBy: 0, __v: 0 });
+    .addFields({ id: "$_id" })
+    .project({ owner: 0, favoritedBy: 0, __v: 0, _id: 0 });
 
   return notices;
 };

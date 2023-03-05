@@ -1,24 +1,32 @@
 const { NoticeModel } = require("../../models");
+const { generateError } = require("../../helpers/utils");
+const { RESPONSE_ERRORS } = require("../../helpers/constants");
 
 const addToFavorite = async (userId, noticeId) => {
   const notice = await NoticeModel.findById(noticeId);
 
   if (!notice) {
-    throw new Error("not found");
+    throw generateError(RESPONSE_ERRORS.notFound);
   }
 
-  const isFavorited = notice.favoritedBy.some(
+  const isInFavoritesList = notice.favoritedBy.some(
     (element) => element.valueOf() === userId.valueOf()
   );
-  if (isFavorited) {
-    throw new Error("bad request");
+  if (isInFavoritesList) {
+    throw generateError(RESPONSE_ERRORS.notFound);
   }
 
-  const { _id, email } = await NoticeModel.findByIdAndUpdate(noticeId, {
-    $push: { favoritedBy: userId },
-  });
+  const updatedNotice = await NoticeModel.findByIdAndUpdate(
+    noticeId,
+    {
+      $push: { favoritedBy: userId },
+    },
+    { returnDocument: "after", runValidators: true }
+  ).select({ __v: 0, owner: 0, favoritedBy: 0 });
 
-  return { _id, email, isFavorite: true };
+  const { _id: id, ...restBody } = updatedNotice.toJSON();
+
+  return { id, ...restBody, isFavorite: true };
 };
 
 module.exports = { addToFavorite };

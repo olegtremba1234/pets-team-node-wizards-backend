@@ -21,7 +21,7 @@ const getAllFavorites = async (req, res) => {
   res.status(200).json(favorites);
 };
 
-const setNoticeFavorites = async (req, res) => {
+const addToFavorite = async (req, res) => {
   const notice = await noticesService.addToFavorite(
     req.user._id,
     req.params.noticeId
@@ -29,8 +29,7 @@ const setNoticeFavorites = async (req, res) => {
   res.status(200).json(notice);
 };
 
-// TODO: rename controller set&&unset looks like the same in code
-const unsetNoticeFavorites = async (req, res) => {
+const removeToFavorite = async (req, res) => {
   const notice = await noticesService.removeFromFavorite(
     req.user._id,
     req.params.noticeId
@@ -62,8 +61,8 @@ module.exports = {
   getNoticesByCategory,
   getCertainNotice,
   getAllFavorites,
-  setNoticeFavorites,
-  unsetNoticeFavorites,
+  addToFavorite,
+  removeToFavorite,
   getOwnNotices,
   createOwnNotice,
   removeOwnNonice,
