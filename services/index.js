@@ -1,15 +1,11 @@
-<<<<<<< HEAD
 const authService = require("./authService");
 const petsService = require("./petsService");
 const newsService = require("./newsService");
-=======
-const authService = require('./authService');
-const petsService = require('./petsService');
-const noticesService = require('./noticesService');
->>>>>>> dev
+const noticesService = require("./noticesService");
 
 module.exports = {
   authService,
   petsService,
   newsService,
+  noticesService,
 };
