@@ -1,18 +1,19 @@
-const { noticesService } = require('../../services');
+const { noticesService } = require("../../services");
 
 const getNoticesByCategory = async (req, res) => {
-  const notices = await noticesService.getByCategory(req.params.category);
+  const notices = await noticesService.getByCategory(
+    req.params.category,
+    req.user?._id
+  );
   res.status(200).json(notices);
 };
 
 const getCertainNotice = async (req, res) => {
-  const notice = await noticesService.getCertain(req.params.noticeId);
+  const notice = await noticesService.getCertain(
+    req.params.noticeId,
+    req.user?._id
+  );
   res.status(200).json(notice);
-};
-
-const setNoticeFavorite = async (req, res) => {
-  await noticesService.addToFavorite(req.user._id, req.params.noticeId);
-  res.status(200).json({ message: 'is favorite now' });
 };
 
 const getAllFavorites = async (req, res) => {
@@ -20,23 +21,35 @@ const getAllFavorites = async (req, res) => {
   res.status(200).json(favorites);
 };
 
-const unsetNoticeFavorite = async (req, res) => {
-  await noticesService.removeFromFavorite(req.user._id, req.params.noticeId);
-  res.status(200).json({ message: 'isn`t favorite now' });
+const addToFavorite = async (req, res) => {
+  const notice = await noticesService.addToFavorite(
+    req.user._id,
+    req.params.noticeId
+  );
+  res.status(200).json(notice);
 };
 
-const createNoticeByCategory = async (req, res) => {
-  const notice = await noticesService.createNotice(
-    req.params.category,
-    req.body,
-    req.user._id
+const removeToFavorite = async (req, res) => {
+  const notice = await noticesService.removeFromFavorite(
+    req.user._id,
+    req.params.noticeId
   );
-  res.status(201).json(notice);
+  res.status(200).json(notice);
 };
 
 const getOwnNotices = async (req, res) => {
   const notices = await noticesService.getOwnNotices(req.user._id);
   res.status(200).json(notices);
+};
+
+const createOwnNotice = async (req, res) => {
+  const notice = await noticesService.createNotice(
+    req.params.category,
+    req.file,
+    req.body,
+    req.user
+  );
+  res.status(201).json(notice);
 };
 
 const removeOwnNonice = async (req, res) => {
@@ -47,10 +60,10 @@ const removeOwnNonice = async (req, res) => {
 module.exports = {
   getNoticesByCategory,
   getCertainNotice,
-  setNoticeFavorite,
   getAllFavorites,
-  unsetNoticeFavorite,
-  createNoticeByCategory,
+  addToFavorite,
+  removeToFavorite,
   getOwnNotices,
+  createOwnNotice,
   removeOwnNonice,
 };
