@@ -22,13 +22,20 @@ const getAllFavorites = async (req, res) => {
 };
 
 const setNoticeFavorites = async (req, res) => {
-  await noticesService.addToFavorite(req.user._id, req.params.noticeId);
-  res.status(200).json({ message: "is favorite now" });
+  const notice = await noticesService.addToFavorite(
+    req.user._id,
+    req.params.noticeId
+  );
+  res.status(200).json(notice);
 };
 
+// TODO: rename controller set&&unset looks like the same in code
 const unsetNoticeFavorites = async (req, res) => {
-  await noticesService.removeFromFavorite(req.user._id, req.params.noticeId);
-  res.status(200).json({ message: "isn`t favorite now" });
+  const notice = await noticesService.removeFromFavorite(
+    req.user._id,
+    req.params.noticeId
+  );
+  res.status(200).json(notice);
 };
 
 const getOwnNotices = async (req, res) => {
