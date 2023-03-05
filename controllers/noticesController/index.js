@@ -1,12 +1,18 @@
 const { noticesService } = require("../../services");
 
 const getNoticesByCategory = async (req, res) => {
-  const notices = await noticesService.getByCategory(req.params.category);
+  const notices = await noticesService.getByCategory(
+    req.params.category,
+    req.user?._id
+  );
   res.status(200).json(notices);
 };
 
 const getCertainNotice = async (req, res) => {
-  const notice = await noticesService.getCertain(req.params.noticeId);
+  const notice = await noticesService.getCertain(
+    req.params.noticeId,
+    req.user?._id
+  );
   res.status(200).json(notice);
 };
 

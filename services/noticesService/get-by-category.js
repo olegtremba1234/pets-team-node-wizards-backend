@@ -12,10 +12,7 @@ const getByCategory = async (category = null, userId = null) => {
                 input: "$favoritedBy",
                 as: "favoritedUserId",
                 cond: {
-                  $eq: [
-                    { $convert: { input: "$$favoritedUserId", to: "string" } },
-                    userId,
-                  ],
+                  $eq: ["$$favoritedUserId", userId],
                 },
               },
             },
