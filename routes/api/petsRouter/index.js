@@ -18,4 +18,10 @@ router.post(
 
 router.delete("/:id", authMiddleware, callController(petsController.removePet));
 
+router.get(
+  "/current",
+  authMiddleware,
+  callController(petsController.currentPetController)
+);
+
 module.exports = router;

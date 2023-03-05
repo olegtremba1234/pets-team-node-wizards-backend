@@ -23,13 +23,20 @@ router
   )
   .post("/logout", authMiddleware, callController(authController.logout))
   .post(
-    "/upload-file",
+    "/avatar",
     authMiddleware,
     uploadCloudMiddleware.single("avatar"),
     callController((req, res) => {
       console.log(req.file);
       res.status(201).json({ message: "file uploaded successfully" });
     })
+  )
+  .get("/current", authMiddleware, callController(authController.getUser))
+  .patch(
+    "/current",
+    authMiddleware,
+    validateBody(validationSchemas.updateUser),
+    callController(authController.updateUser)
   );
 
 module.exports = router;
