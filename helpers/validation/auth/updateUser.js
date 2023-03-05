@@ -1,13 +1,13 @@
 const Joi = require("joi");
 
-const register = Joi.object({
+const updateUser = Joi.object({
   name: Joi.string().min(2).max(30),
   email: Joi.string().email(),
-  password: Joi.string().pattern(/^\S+$/).min(7).max(32),
-  city: Joi.string(),
+  birthday: Joi.string().pattern(/^\d{2}\.\d{2}\.\d{4}$/),
   phone: Joi.string().pattern(/^\+380\d{9}$/),
+  city: Joi.string(),
 });
 
 module.exports = {
-  register,
+  updateUser,
 };

@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-  name: {
-    type: String,
-  },
   email: {
     type: String,
     required: [true, "Email is required"],
@@ -13,6 +10,10 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  name: {
+    type: String,
+    trim: true,
+  },
   city: {
     type: String,
     required: [true, "City is required."],
@@ -20,6 +21,14 @@ const userSchema = mongoose.Schema({
   phone: {
     type: String,
     required: [true, "Phone is required."],
+  },
+  birthday: {
+    type: String,
+    require: true,
+    default: "00.00.0000",
+  },
+  avatar: {
+    type: String,
   },
 
   accessToken: {
