@@ -12,7 +12,7 @@ const noticeSchema = mongoose.Schema(
     email: { type: String },
     phone: { type: String },
     price: { type: String },
-    photoURL: { type: String },
+    petPhotoURL: { type: String },
     comments: { type: String },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
     favoritedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],

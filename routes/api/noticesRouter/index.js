@@ -3,8 +3,19 @@ const {
   callController,
   authMiddleware,
   isAuthorizedMiddleware,
+  uploadCloudMiddleware,
+  // validateBody,
 } = require("../../../middlewares");
 const { noticesController } = require("../../../controllers");
+
+// const Joi = require("joi");
+
+// const noticeAdd = Joi.object({
+//   name: Joi.string().required(),
+//   test: Joi.string().required(),
+//   helo: Joi.string().required(),
+//   some: Joi.number().required(),
+// });
 
 const router = express.Router();
 
@@ -60,6 +71,8 @@ router.get(
 router.post(
   "/my-notices/:category",
   authMiddleware,
+  uploadCloudMiddleware.single("pet-image"),
+  // validateBody(noticeAdd),
   callController(noticesController.createOwnNotice)
 );
 

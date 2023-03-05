@@ -46,6 +46,7 @@ const getOwnNotices = async (req, res) => {
 const createOwnNotice = async (req, res) => {
   const notice = await noticesService.createNotice(
     req.params.category,
+    req.file,
     req.body,
     req.user
   );
