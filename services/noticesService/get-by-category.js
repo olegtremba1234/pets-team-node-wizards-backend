@@ -1,6 +1,6 @@
 const { NoticeModel } = require("../../models");
 
-const getByCategory = async (category = null, userId = null) => {
+const getByCategory = async (category, userId) => {
   const notices = await NoticeModel.aggregate()
     .match({ category })
     .addFields({

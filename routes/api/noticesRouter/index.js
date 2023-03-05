@@ -12,6 +12,7 @@ const router = express.Router();
 // TODO:  add check is authorized user middleware for 'get by category'
 // TODO:  add projection to endpoints
 // TODO:  check is notice exist before add to favorite
+// TODO:  add universal method to aggregate responses
 
 // aggregate
 router.get(
