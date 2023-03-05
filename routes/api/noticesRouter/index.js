@@ -1,64 +1,73 @@
-const express = require('express');
-const { callController } = require('../../../middlewares');
-const { noticesController } = require('../../../controllers');
+const express = require("express");
+const {
+  callController,
+  authMiddleware,
+  isAuthorizedMiddleware,
+  uploadCloudMiddleware,
+  validateBody,
+  validateObjectId,
+} = require("../../../middlewares");
+const { noticeAddSchema } = require("../../../helpers/validation/notices");
+const { noticesController } = require("../../../controllers");
 
 const router = express.Router();
 
-function authMiddleware(req, res, next) {
-  try {
-    const { authorization } = req.headers;
-    const [, token] = authorization.split(' ');
-
-    req.user = { _id: token };
-    next();
-  } catch (error) {
-    next(error);
-  }
-}
+// TODO:  change validation schema export/import
+// TODO:  set validtaion schema
+// TODO:  add projection to endpoints
+// TODO:  add universal method to aggregate responses
 
 router.get(
-  '/byCategory/:category',
+  "/by-category/:category",
+  isAuthorizedMiddleware,
   callController(noticesController.getNoticesByCategory)
 );
 
 router.get(
-  '/certain/:noticeId',
+  "/certain/:noticeId",
+  isAuthorizedMiddleware,
+  validateObjectId,
   callController(noticesController.getCertainNotice)
 );
 
-router.patch(
-  '/certain/:noticeId/favorite',
-  authMiddleware,
-  callController(noticesController.setNoticeFavorite)
-);
-
 router.get(
-  '/favorites',
+  "/my-favorites",
   authMiddleware,
   callController(noticesController.getAllFavorites)
 );
 
-router.patch(
-  '/certain/:noticeId/unFavorite',
+router.post(
+  "/my-favorites/:noticeId",
   authMiddleware,
-  callController(noticesController.unsetNoticeFavorite)
+  validateObjectId,
+  callController(noticesController.addToFavorite)
 );
 
-router.post(
-  '/byCategory/:category',
+router.delete(
+  "/my-favorites/:noticeId",
   authMiddleware,
-  callController(noticesController.createNoticeByCategory)
+  validateObjectId,
+  callController(noticesController.removeToFavorite)
 );
 
 router.get(
-  '/myNotices',
+  "/my-notices",
   authMiddleware,
   callController(noticesController.getOwnNotices)
 );
 
-router.delete(
-  '/certain/:noticeId',
+router.post(
+  "/my-notices/:category",
   authMiddleware,
+  uploadCloudMiddleware.single("pet-image"),
+  validateBody(noticeAddSchema),
+  callController(noticesController.createOwnNotice)
+);
+
+router.delete(
+  "/my-notices/:noticeId",
+  authMiddleware,
+  validateObjectId,
   callController(noticesController.removeOwnNonice)
 );
 
