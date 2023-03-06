@@ -1,7 +1,20 @@
 const { NoticeModel } = require("../../models");
+const { matchNoticesFromDB } = require("../../helpers/utils");
 
-const createNotice = async (category, { path = null } = {}, body, user) => {
-  const { title, name, birthday, breed, sex, location, price, comments } = body;
+const createNotice = async (file = {}, body, user) => {
+  const { path = null } = file;
+  const {
+    category,
+    title,
+    name,
+    birthday,
+    breed,
+    sex,
+    location,
+    price,
+    comments,
+  } = body;
+
   const { _id, email, phone } = user;
   const notice = await NoticeModel.create({
     category,
@@ -18,21 +31,9 @@ const createNotice = async (category, { path = null } = {}, body, user) => {
     comments,
     owner: _id,
   });
-  return {
-    id: notice._id,
-    category: notice.category,
-    title: notice.title,
-    name: notice.name,
-    birthday: notice.birthday,
-    breed: notice.breed,
-    sex: notice.sex,
-    location: notice.location,
-    email: notice.email,
-    phone: notice.phone,
-    price: notice.price,
-    petPhotoURL: notice.petPhotoURL,
-    comments: notice.comments,
-  };
+
+  const [createdNotice] = await matchNoticesFromDB({ _id: notice._id });
+  return createdNotice;
 };
 
 module.exports = {
