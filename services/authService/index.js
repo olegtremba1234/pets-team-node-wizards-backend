@@ -51,9 +51,9 @@ const logout = async (user) => {
 };
 
 const updateUser = async (_id, body) => {
-  const { name, email, phone, city, birthday } =
+  const { name, email, phone, city, birthday, avatarUrl} =
     await UserModel.findByIdAndUpdate(_id, { ...body }, { new: true });
-  return { name, email, phone, city, birthday };
+  return { name, email, phone, city, birthday, avatarUrl };
 };
 
 module.exports = {

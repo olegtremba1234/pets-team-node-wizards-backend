@@ -26,10 +26,7 @@ router
     "/avatar",
     authMiddleware,
     uploadCloudMiddleware.single("avatar"),
-    callController((req, res) => {
-      console.log(req.file);
-      res.status(201).json({ message: "file uploaded successfully" });
-    })
+    callController(authController.updateAvatar)
   )
   .get("/current", authMiddleware, callController(authController.getUser))
   .patch(
