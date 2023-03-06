@@ -4,6 +4,7 @@ const {
   validateBody,
   callController,
   authMiddleware,
+  uploadCloudMiddleware,
 } = require("../../../middlewares");
 const { validationSchemas } = require("../../../helpers");
 
@@ -22,6 +23,13 @@ router.get(
   "/current",
   authMiddleware,
   callController(petsController.currentPetController)
+);
+
+router.post(
+  "/avatar",
+  authMiddleware,
+  uploadCloudMiddleware.single("avatar"),
+  callController(petsController.updatePetAvatar)
 );
 
 module.exports = router;

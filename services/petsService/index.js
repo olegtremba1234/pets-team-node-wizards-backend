@@ -35,7 +35,11 @@ const removePetById = async (id, owner) => {
 };
 
 const currentPet = async (id) => {
-  const user = await UserModel.findById(id, { accessToken: 0, __v: 0 });
+  const user = await UserModel.findById(id, {
+    accessToken: 0,
+    __v: 0,
+    password: 0,
+  });
   const petUser = await PetsModel.find({ owner: id }, { owner: 0, __v: 0 });
   return { user, petUser };
 };
