@@ -1,4 +1,4 @@
-const validationSchemas = require("./validation/auth");
+const validationSchemas = require("./validation");
 const utils = require("./utils");
 const constants = require("./constants");
 

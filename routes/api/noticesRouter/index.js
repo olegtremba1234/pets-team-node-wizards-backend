@@ -7,12 +7,11 @@ const {
   validateBody,
   validateObjectId,
 } = require("../../../middlewares");
-const { noticeAddSchema } = require("../../../helpers/validation/notices");
+const { noticeAddSchema } = require("../../../helpers/validation");
 const { noticesController } = require("../../../controllers");
 
 const router = express.Router();
 
-// TODO:  change validation schema export/import
 // TODO:  set validtaion schema
 // TODO:  add pagination
 // TODO:  add search for get-by-category
