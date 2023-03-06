@@ -1,6 +1,10 @@
 const { NoticeModel } = require("../../models");
 const { generateError } = require("../../helpers/utils");
-const { RESPONSE_ERRORS } = require("../../helpers/constants");
+const {
+  RESPONSE_ERRORS,
+  DEFAULT_UPDATE_OPTIONS,
+  NOTICE_PROJECTION,
+} = require("../../helpers/constants");
 
 const addToFavorite = async (userId, noticeId) => {
   const notice = await NoticeModel.findById(noticeId);
@@ -21,12 +25,12 @@ const addToFavorite = async (userId, noticeId) => {
     {
       $push: { favoritedBy: userId },
     },
-    { returnDocument: "after", runValidators: true }
-  ).select({ __v: 0, owner: 0, favoritedBy: 0 });
+    DEFAULT_UPDATE_OPTIONS
+  ).select(NOTICE_PROJECTION);
 
   const { _id: id, ...restBody } = updatedNotice.toJSON();
 
-  return { id, ...restBody, isFavorite: true };
+  return { ...restBody, isFavorite: true, id };
 };
 
 module.exports = { addToFavorite };

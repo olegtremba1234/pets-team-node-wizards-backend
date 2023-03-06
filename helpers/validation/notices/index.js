@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const noticeAddSchema = Joi.object({
+  category: Joi.string().required(),
   title: Joi.string().required(),
   name: Joi.string().required(),
   birthday: Joi.date().required(),

@@ -1,33 +1,17 @@
-const { NoticeModel } = require("../../models");
+const { generateError, matchNoticesFromDB } = require("../../helpers/utils");
+const { RESPONSE_ERRORS } = require("../../helpers/constants");
 const mongoose = require("mongoose");
 
-const getCertain = async (noticeId, userId) => {
-  const [notice] = await NoticeModel.aggregate([
+const getCertain = async (noticeId, user = {}) => {
+  const [notice] = await matchNoticesFromDB(
     {
-      $match: { _id: { $eq: new mongoose.Types.ObjectId(noticeId) } },
+      _id: { $eq: new mongoose.Types.ObjectId(noticeId) },
     },
-  ])
-    .addFields({
-      isFavorite: {
-        $cond: {
-          if: {
-            $first: {
-              $filter: {
-                input: "$favoritedBy",
-                as: "favoritedUserId",
-                cond: {
-                  $eq: ["$$favoritedUserId", userId],
-                },
-              },
-            },
-          },
-          then: true,
-          else: false,
-        },
-      },
-    })
-    .addFields({ id: "$_id" })
-    .project({ owner: 0, favoritedBy: 0, __v: 0, _id: 0 });
+    user._id
+  );
+  if (!notice) {
+    throw generateError(RESPONSE_ERRORS.notFound);
+  }
   return notice;
 };
 
