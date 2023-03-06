@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
     require: true,
     default: "00.00.0000",
   },
-  avatar: {
+  avatarUrl: {
     type: String,
   },
 

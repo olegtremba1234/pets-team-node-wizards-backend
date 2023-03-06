@@ -1,6 +1,6 @@
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const multer = require('multer');
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const multer = require("multer");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -10,8 +10,8 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: 'avatars',
-  allowedFormats: ['jpg', 'png'],
+  folder: "avatars",
+  allowedFormats: ["jpg", "png"],
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
@@ -19,4 +19,4 @@ const storage = new CloudinaryStorage({
 
 const uploadCloudMiddleware = multer({ storage });
 
-module.exports = { uploadCloudMiddleware };
+module.exports = { uploadCloudMiddleware, cloudinary };
