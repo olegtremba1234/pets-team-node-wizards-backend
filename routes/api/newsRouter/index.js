@@ -5,6 +5,6 @@ const { callController } = require("../../../middlewares");
 const router = express.Router();
 
 router.get("/", callController(newsController.getAllNews));
-router.get("/title", callController(newsController.searchNewsController));
+router.get("/search", callController(newsController.searchNewsController));
 
 module.exports = router;
