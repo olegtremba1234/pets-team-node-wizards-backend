@@ -14,8 +14,8 @@ const router = express.Router();
 
 // TODO:  change validation schema export/import
 // TODO:  set validtaion schema
-// TODO:  add projection to endpoints
-// TODO:  add universal method to aggregate responses
+// TODO:  add pagination
+// TODO:  add search for get-by-category
 
 router.get(
   "/by-category/:category",
@@ -47,7 +47,7 @@ router.delete(
   "/my-favorites/:noticeId",
   authMiddleware,
   validateObjectId,
-  callController(noticesController.removeToFavorite)
+  callController(noticesController.removeFromFavorite)
 );
 
 router.get(
@@ -57,7 +57,7 @@ router.get(
 );
 
 router.post(
-  "/my-notices/:category",
+  "/my-notices",
   authMiddleware,
   uploadCloudMiddleware.single("pet-image"),
   validateBody(noticeAddSchema),
