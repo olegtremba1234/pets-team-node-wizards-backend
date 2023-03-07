@@ -20,7 +20,10 @@
       "name": "Auth",
       "description": "Authorization endpoints"
     },
-    { "name": "Notices", "description": "Notices endpoints" }
+    { "name": "Notices", "description": "Notices endpoints" },
+    { "name": "News", "description": "News endpoints" },
+    { "name": "Friends", "description": "Friends endpoints" },
+    { "name": "Pets", "description": "Pets endpoints" }
   ],
   "paths": {
     "/api/auth/register": {
@@ -144,9 +147,8 @@
             "description": "Server error"
           }
         }
-      }
-    },
-    "/api/auth/current": {
+      },
+
       "patch": {
         "tags": ["Auth"],
         "summary": "Update current user info",
@@ -217,7 +219,7 @@
       }
     },
     "/api/notices/by-category/:category": {
-      "post": {
+      "get": {
         "tags": ["Notices"],
         "summary": "Notices by category",
         "parameters": [
@@ -227,6 +229,12 @@
             "name": "category",
             "type": "string",
             "description": "Category"
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "description": "search"
           }
         ],
         "responses": {
@@ -278,7 +286,14 @@
         "tags": ["Notices"],
         "summary": "Favourite notices",
         "security": [{ "Bearer": [] }],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "description": "search"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -328,9 +343,7 @@
             "description": "Not found"
           }
         }
-      }
-    },
-    "/api/notices/my-favorites/:noticeId": {
+      },
       "delete": {
         "tags": ["Notices"],
         "summary": "Delete notice by id",
@@ -364,37 +377,6 @@
         }
       }
     },
-    "/api/notices/my-notices": {
-      "get": {
-        "tags": ["Notices"],
-        "summary": "My notices",
-        "security": [{ "Bearer": [] }],
-        "parameters": [
-          {
-            "in": "path",
-            "required": "true",
-            "name": "noticeId",
-            "type": "string",
-            "description": "noticeId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NoticesByCategoryResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
     "/api/notices/my-notices/:noticeId": {
       "delete": {
         "tags": ["Notices"],
@@ -423,6 +405,41 @@
       }
     },
     "/api/notices/my-notices": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "My notices",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "required": "true",
+            "name": "noticeId",
+            "type": "string",
+            "description": "noticeId"
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "description": "search"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesByCategoryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "tags": ["Notices"],
         "summary": "Add notice",
@@ -454,7 +471,7 @@
                     "required": true
                   },
                   "birthday": {
-                    "type": "date",
+                    "type": "string",
                     "required": true
                   },
                   "breed": {
@@ -498,6 +515,118 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/notices": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Notices by search",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "description": "search"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesByCategoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/news": {
+      "get": {
+        "tags": ["News"],
+        "summary": "News",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/friends": {
+      "get": {
+        "tags": ["Friends"],
+        "summary": "Friends",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FriendsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/pets/:id": {
+      "delete": {
+        "tags": ["Pets"],
+        "summary": "Delete pet by id",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "required": "true",
+            "name": "id",
+            "type": "string",
+            "description": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Contact deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -600,7 +729,7 @@
               "type": "string"
             },
             "birthday": {
-              "type": "date"
+              "type": "string"
             },
             "breed": {
               "type": "string"
@@ -649,7 +778,7 @@
             "type": "string"
           },
           "birthday": {
-            "type": "date"
+            "type": "string"
           },
           "breed": {
             "type": "string"
@@ -702,6 +831,63 @@
           },
           "birthday": {
             "type": "string"
+          }
+        }
+      },
+      "NewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "FriendsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "addressUrl": {
+              "type": "string"
+            },
+            "imageUrl": {
+              "type": "string"
+            }
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "workDays": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "isOpen": {
+                "type": "boolean"
+              }
+            }
           }
         }
       }
