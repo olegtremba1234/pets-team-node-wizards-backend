@@ -13,8 +13,12 @@ const { noticesController } = require("../../../controllers");
 const router = express.Router();
 
 // TODO:  set validtaion schema
-// TODO:  add pagination
-// TODO:  add search for get-by-category
+
+router.get(
+  "/",
+  isAuthorizedMiddleware,
+  callController(noticesController.getAllNotices)
+);
 
 router.get(
   "/by-category/:category",

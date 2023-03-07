@@ -23,7 +23,7 @@ const authMiddleware = async (req, res, next) => {
       const { userId } = jsonwebtoken.verify(token, jwtSecret);
       const userInstance = await UserModel.findById(userId);
 
-      if (!userInstance) {
+      if (!userInstance || userInstance.accessToken !== token) {
         throw generateError(RESPONSE_ERRORS.unauthorized);
       }
 

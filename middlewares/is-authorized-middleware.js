@@ -28,6 +28,9 @@ const isAuthorizedMiddleware = async (req, res, next) => {
 
     next();
   } catch (error) {
+    if (error instanceof jsonwebtoken.JsonWebTokenError) {
+      return next();
+    }
     next(error);
   }
 };
