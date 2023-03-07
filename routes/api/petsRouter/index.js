@@ -13,6 +13,7 @@ const router = express.Router();
 router.post(
   "/",
   authMiddleware,
+  uploadCloudMiddleware.single("avatar"),
   validateBody(validationSchemas.addPetSchema),
   callController(petsController.createPet)
 );
@@ -25,8 +26,8 @@ router.get(
   callController(petsController.currentPetController)
 );
 
-router.post(
-  "/avatar",
+router.patch(
+  "/avatarURL/:petId",
   authMiddleware,
   uploadCloudMiddleware.single("avatar"),
   callController(petsController.updatePetAvatar)

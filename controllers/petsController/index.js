@@ -1,12 +1,11 @@
 const { petsService } = require("../../services");
 const { currentPet } = require("../../services/petsService");
-const { PetsModel } = require("../../models/pets.models");
 const { generateError } = require("../../helpers/utils");
 const { RESPONSE_ERRORS } = require("../../helpers/constants");
 
 const createPet = async (req, res) => {
-  const newPet = await petsService.addPet(req.body, req.user._id);
-  res.status(201).json(newPet);
+  const pet = await petsService.addPet(req.file, req.body, req.user);
+  res.status(201).json(pet);
 };
 
 const removePet = async (req, res) => {
@@ -24,15 +23,14 @@ const currentPetController = async (req, res) => {
 };
 
 const updatePetAvatar = async (req, res, next) => {
-  if (!req.file) {
+  const avatarURL = req.file.path;
+  const id = req.params.petId;
+  const result = await petsService.addPetAvatar(avatarURL, id);
+  if (!result) {
     throw generateError(RESPONSE_ERRORS.notImage);
   }
-  console.log(req.user);
-  console.log(req.file.path);
-  const { _id } = req.user;
-  const avatarUrl = req.file.path;
-  await PetsModel.findByIdAndUpdate(_id, { avatarUrl });
-  res.status(201).json({ avatarUrl });
+
+  res.status(201).json(result);
 };
 
 module.exports = {
