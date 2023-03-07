@@ -1,14 +1,20 @@
 const { NoticeModel } = require("../../models");
-const { generateError } = require("./generate-error");
-const { RESPONSE_ERRORS, NOTICE_PROJECTION } = require("../constants");
 
-const matchNoticesFromDB = async (matchQuery = null, userId = null) => {
-  if (!matchQuery) {
-    throw generateError(RESPONSE_ERRORS.notFound);
+const matchNoticesFromDB = async (
+  matchQuery = {},
+  searchQuery = null,
+  userId = null
+) => {
+  const aggregateQuery = {
+    ...matchQuery,
+  };
+
+  if (searchQuery) {
+    aggregateQuery.$text = { $search: searchQuery };
   }
 
   const result = await NoticeModel.aggregate()
-    .match(matchQuery)
+    .match(aggregateQuery)
     .addFields({
       isFavorite: {
         $cond: {
@@ -29,7 +35,7 @@ const matchNoticesFromDB = async (matchQuery = null, userId = null) => {
       },
     })
     .addFields({ id: "$_id" })
-    .project({ ...NOTICE_PROJECTION, _id: 0 });
+    .project({ __v: 0, owner: 0, favoritedBy: 0, _id: 0 });
 
   return result;
 };

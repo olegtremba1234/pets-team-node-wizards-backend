@@ -4,14 +4,12 @@ const {
 } = require("../../helpers/constants");
 const { matchNoticesFromDB, generateError } = require("../../helpers/utils");
 
-const getByCategory = async (category, user = {}) => {
+const getByCategory = async (category, query, user = {}) => {
   if (!NOTICE_CATEGORIES.includes(category)) {
     throw generateError(RESPONSE_ERRORS.wrongCategory);
   }
 
-  const notices = await matchNoticesFromDB({ category }, user._id);
-
-  return notices;
+  return await matchNoticesFromDB({ category }, query.search, user._id);
 };
 
 module.exports = { getByCategory };
