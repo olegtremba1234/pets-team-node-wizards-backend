@@ -630,6 +630,87 @@
           }
         }
       }
+    },
+    "/api/pets": {
+      "post": {
+        "tags": ["Pets"],
+        "summary": "Add a pet",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Add pet object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "birthDay": {
+                    "type": "string"
+                  },
+                  "breed": {
+                    "type": "string"
+                  },
+                  "comments": {
+                    "type": "string"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddPetResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/pets/current": {
+      "get": {
+        "tags": ["Auth"],
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentPetsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -886,6 +967,65 @@
             "properties": {
               "isOpen": {
                 "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "AddPetResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthDay": {
+            "type": "string"
+          },
+          "breed": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "avatarURL": {
+            "type": "string"
+          }
+        }
+      },
+      "CurrentPetResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "birthday": {
+                    "type": "string"
+                  },
+                  "avatarUrl": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
