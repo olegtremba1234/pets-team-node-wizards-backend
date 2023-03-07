@@ -1,7 +1,11 @@
 const { matchNoticesFromDB } = require("../../helpers/utils");
 
-const getOwnNotices = async (userId) => {
-  const notices = await matchNoticesFromDB({ owner: userId }, userId);
+const getOwnNotices = async (userId, query) => {
+  const notices = await matchNoticesFromDB(
+    { owner: userId },
+    query.search,
+    userId
+  );
   return notices;
 };
 

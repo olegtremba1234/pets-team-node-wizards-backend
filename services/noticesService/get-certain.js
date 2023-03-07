@@ -7,6 +7,7 @@ const getCertain = async (noticeId, user = {}) => {
     {
       _id: { $eq: new mongoose.Types.ObjectId(noticeId) },
     },
+    null,
     user._id
   );
   if (!notice) {

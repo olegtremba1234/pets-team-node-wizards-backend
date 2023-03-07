@@ -1,8 +1,14 @@
 const { noticesService } = require("../../services");
 
+const getAllNotices = async (req, res) => {
+  const notices = await noticesService.getAllNotices(req.query, req.user);
+  res.status(200).json(notices);
+};
+
 const getNoticesByCategory = async (req, res) => {
   const notices = await noticesService.getByCategory(
     req.params.category,
+    req.query,
     req.user
   );
   res.status(200).json(notices);
@@ -14,7 +20,7 @@ const getCertainNotice = async (req, res) => {
 };
 
 const getAllFavorites = async (req, res) => {
-  const favorites = await noticesService.getFavorites(req.user._id);
+  const favorites = await noticesService.getFavorites(req.user._id, req.query);
   res.status(200).json(favorites);
 };
 
@@ -35,11 +41,10 @@ const removeFromFavorite = async (req, res) => {
 };
 
 const getOwnNotices = async (req, res) => {
-  const notices = await noticesService.getOwnNotices(req.user._id);
+  const notices = await noticesService.getOwnNotices(req.user._id, req.query);
   res.status(200).json(notices);
 };
 
-// TODO:  change req.user to req.user._id after set email and phone inside model
 const createOwnNotice = async (req, res) => {
   const notice = await noticesService.createNotice(
     req.file,
@@ -55,6 +60,7 @@ const removeOwnNonice = async (req, res) => {
 };
 
 module.exports = {
+  getAllNotices,
   getNoticesByCategory,
   getCertainNotice,
   getAllFavorites,
