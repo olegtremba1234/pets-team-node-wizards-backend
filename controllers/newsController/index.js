@@ -1,11 +1,20 @@
-const { NewsModel } = require("../../models/news.models");
+// const { NewsModel } = require("../../models/news.models");
 const { newsService } = require("../../services");
 const { generateError } = require("../../helpers/utils");
 const { RESPONSE_ERRORS } = require("../../helpers/constants");
 
-const getAllNews = async (req, res, next) => {
-  const result = await NewsModel.find({});
-  res.json(result);
+const getAllNews = async (req, res) => {
+  let { page = 1, limit = 6 } = req.query;
+
+  if (page <= 0) throw generateError(RESPONSE_ERRORS.notFound);
+
+  limit = parseInt(limit) > 6 ? 6 : parseInt(limit);
+  const skip = (parseInt(page) - 1) * parseInt(limit);
+
+  const data = await newsService.getSortNews(skip, limit);
+
+  if (!data.length) throw generateError(RESPONSE_ERRORS.notFound);
+  res.json(data);
 };
 
 const searchNewsController = async (req, res) => {
