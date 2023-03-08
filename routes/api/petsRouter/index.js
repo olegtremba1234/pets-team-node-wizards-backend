@@ -5,6 +5,7 @@ const {
   callController,
   authMiddleware,
   uploadCloudMiddleware,
+  validateObjectId,
 } = require("../../../middlewares");
 const { validationSchemas } = require("../../../helpers");
 
@@ -29,6 +30,7 @@ router.get(
 router.patch(
   "/avatarURL/:petId",
   authMiddleware,
+  validateObjectId,
   uploadCloudMiddleware.single("avatar"),
   callController(petsController.updatePetAvatar)
 );
