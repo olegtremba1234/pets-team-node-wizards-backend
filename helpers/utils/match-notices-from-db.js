@@ -34,6 +34,15 @@ const matchNoticesFromDB = async (
         },
       },
     })
+    .addFields({
+      isOwn: {
+        $cond: {
+          if: { $eq: ["$owner", userId] },
+          then: true,
+          else: false,
+        },
+      },
+    })
     .addFields({ id: "$_id" })
     .project({ __v: 0, owner: 0, favoritedBy: 0, _id: 0 });
 
