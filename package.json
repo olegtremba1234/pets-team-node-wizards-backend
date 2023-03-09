@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@joi/date": "^2.1.0",
     "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.34.0",
@@ -27,8 +28,8 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nanoid": "^3.3.4",
     "nodemailer": "^6.9.1",
-    "yarn": "^1.22.19",
-    "swagger-ui-express": "^4.6.2"
+    "swagger-ui-express": "^4.6.2",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "eslint": "7.19.0",
