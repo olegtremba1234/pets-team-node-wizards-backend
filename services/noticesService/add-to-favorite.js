@@ -1,5 +1,5 @@
 const { NoticeModel } = require("../../models");
-const { generateError } = require("../../helpers/utils");
+const { generateError, matchNoticesFromDB } = require("../../helpers/utils");
 const {
   RESPONSE_ERRORS,
   DEFAULT_UPDATE_OPTIONS,
@@ -28,9 +28,15 @@ const addToFavorite = async (userId, noticeId) => {
     DEFAULT_UPDATE_OPTIONS
   ).select(NOTICE_PROJECTION);
 
-  const { _id: id, ...restBody } = updatedNotice.toJSON();
+  const [favoritedNotice] = await matchNoticesFromDB(
+    {
+      _id: { $eq: updatedNotice._id },
+    },
+    null,
+    userId
+  );
 
-  return { ...restBody, isFavorite: true, id };
+  return favoritedNotice;
 };
 
 module.exports = { addToFavorite };
