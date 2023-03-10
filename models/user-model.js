@@ -12,11 +12,13 @@ const userSchema = mongoose.Schema({
   },
   name: {
     type: String,
+    required: [true, "name is required"],
     trim: true,
   },
   city: {
     type: String,
     required: [true, "City is required."],
+    trim: true,
   },
   phone: {
     type: String,
@@ -24,8 +26,6 @@ const userSchema = mongoose.Schema({
   },
   birthday: {
     type: String,
-    require: true,
-    default: "00.00.0000",
   },
   avatarUrl: {
     type: String,
