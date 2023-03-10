@@ -922,7 +922,7 @@
               "description": "Notice id"
             },
             "isOwn":{
-               "type": "boolean",
+               "type": "boolean"
             } 
           }
         }
