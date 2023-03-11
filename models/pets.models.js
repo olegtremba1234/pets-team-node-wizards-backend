@@ -4,6 +4,7 @@ const petsSchema = mongoose.Schema({
   name: {
     type: String,
     require: true,
+    trim: true,
   },
   birthDay: {
     type: String,
@@ -12,10 +13,12 @@ const petsSchema = mongoose.Schema({
   breed: {
     type: String,
     require: true,
+    trim: true,
   },
   comments: {
     type: String,
     require: true,
+    trim: true,
   },
   avatarURL: {
     type: String,
