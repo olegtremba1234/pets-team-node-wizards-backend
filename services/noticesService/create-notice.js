@@ -32,7 +32,11 @@ const createNotice = async (file = {}, body, user) => {
     owner: _id,
   });
 
-  const [createdNotice] = await matchNoticesFromDB({ _id: notice._id });
+  const [createdNotice] = await matchNoticesFromDB(
+    { _id: notice._id },
+    null,
+    user._id
+  );
   return createdNotice;
 };
 

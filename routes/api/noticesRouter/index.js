@@ -12,8 +12,6 @@ const { noticesController } = require("../../../controllers");
 
 const router = express.Router();
 
-// TODO:  set validtaion schema
-
 router.get(
   "/",
   isAuthorizedMiddleware,
