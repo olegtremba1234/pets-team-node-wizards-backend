@@ -920,7 +920,10 @@
             "id": {
               "type": "string",
               "description": "Notice id"
-            }
+            },
+            "isOwn":{
+               "type": "boolean"
+            } 
           }
         }
       },
@@ -969,6 +972,9 @@
           "id": {
             "type": "string",
             "description": "Notice id"
+          },
+          "isOwn": {
+            "type": "boolean"
           }
         }
       },
