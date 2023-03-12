@@ -5,10 +5,12 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
     unique: true,
+    trim: true,
   },
   password: {
     type: String,
     required: [true, "Password is required"],
+    trim: true,
   },
   name: {
     type: String,
@@ -23,6 +25,7 @@ const userSchema = mongoose.Schema({
   phone: {
     type: String,
     required: [true, "Phone is required."],
+    trim: true,
   },
   birthday: {
     type: String,
