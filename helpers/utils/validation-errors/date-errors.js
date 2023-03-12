@@ -20,6 +20,16 @@ class DateErrors extends ValidationErrors {
     this.messages["date.less"] = `${this.fieldName} must be less than ${date}`;
     return this;
   }
+
+  format(dates) {
+    if (!this.fieldName || !dates) {
+      return this;
+    }
+    this.messages[
+      "date.format"
+    ] = `${this.fieldName} must be in DD.MM.YYYY format`;
+    return this;
+  }
 }
 
 module.exports = { DateErrors };
