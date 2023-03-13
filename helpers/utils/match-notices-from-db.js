@@ -5,16 +5,12 @@ const matchNoticesFromDB = async (
   searchQuery = null,
   userId = null
 ) => {
-  const aggregateQuery = {
-    ...matchQuery,
-  };
-
   if (searchQuery) {
-    aggregateQuery.$text = { $search: searchQuery };
+    matchQuery.$text = { $search: searchQuery };
   }
 
   const result = await NoticeModel.aggregate()
-    .match(aggregateQuery)
+    .match(matchQuery)
     .addFields({
       isFavorite: {
         $cond: {
