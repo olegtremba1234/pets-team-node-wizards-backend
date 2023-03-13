@@ -14,6 +14,14 @@ const RESPONSE_ERRORS = {
       ", "
     )}]`,
   },
+  isAlreadyAddedFavorites: {
+    status: 400,
+    message: "The notice is already in your favorites",
+  },
+  isAlreadyRemovedFavorites: {
+    status: 400,
+    message: "The notice has already been removed from your favorites",
+  },
 };
 
 module.exports = { RESPONSE_ERRORS };

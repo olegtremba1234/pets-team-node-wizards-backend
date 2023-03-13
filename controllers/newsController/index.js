@@ -1,4 +1,3 @@
-// const { NewsModel } = require("../../models/news.models");
 const { newsService } = require("../../services");
 const { generateError } = require("../../helpers/utils");
 const { RESPONSE_ERRORS } = require("../../helpers/constants");
