@@ -5,14 +5,14 @@ const addPetSchema = Joi.object({
     .trim()
     .min(2)
     .max(16)
-    .pattern(/^([a-zA-Z-А-Яа-яЁёЇїІіЄєҐґ']+){3,}$/)
+    .pattern(/^([a-zA-Z-А-Яа-яЁёЇїІіЄєҐґ\s-']+){2,}$/)
     .required(),
   birthDay: Joi.date().max("now").format("DD.MM.YYYY"),
   breed: Joi.string()
     .trim()
     .min(2)
     .max(16)
-    .pattern(/^([a-zA-Z-А-Яа-яЁёЇїІіЄєҐґ']+){3,}$/)
+    .pattern(/^([a-zA-Z-А-Яа-яЁёЇїІіЄєҐґ\s-']+){2,}$/)
     .required(),
   comments: Joi.string().trim().min(8).max(120).required(),
 });
