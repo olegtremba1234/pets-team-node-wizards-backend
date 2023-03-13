@@ -43,7 +43,7 @@ const register = Joi.object({
     ),
   password: Joi.string()
     .trim()
-    .pattern(/^\d*(?=.*[a-z])(?=.*[A-Z])\S+\D*\d$/)
+    .pattern(/^\d*(?=.*[a-z])(?=.*[A-Z])\S+\D*\d*$/)
     .min(7)
     .max(32)
     .required()
