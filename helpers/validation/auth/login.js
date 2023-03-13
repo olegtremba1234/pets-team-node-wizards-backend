@@ -26,7 +26,7 @@ const login = Joi.object({
     ),
   password: Joi.string()
     .trim()
-    .pattern(/^[a-zA-Zа]\S+\d$/)
+    .pattern(/^\d*(?=.*[a-z])(?=.*[A-Z])\S+\D*\d*$/)
     .min(7)
     .max(32)
     .required()
